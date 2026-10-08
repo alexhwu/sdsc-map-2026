@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Participation — SDSC MAP 2026–2027</title>
+<style>
+  :root {
+    --bg: #f4f6fb;
+    --card: #ffffff;
+    --text: #1a2233;
+    --muted: #6b7280;
+    --accent: #4f6ef7;
+    --border: #e5e8f0;
+    --outstanding: #10b981;
+    --excellent: #4f6ef7;
+    --strong: #f59e0b;
+    --satisfactory: #8b5cf6;
+    --developing: #94a3b8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  .container { max-width: 640px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 32px; }
+  header h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; }
+  header p { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(20, 30, 60, 0.06);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, #fafbff, #ffffff);
+  }
+  .card-header h2 { font-size: 1.05rem; font-weight: 600; }
+  .card-header .date { color: var(--muted); font-size: 0.85rem; }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    padding: 12px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f8faff; }
+  .participant { display: flex; align-items: center; gap: 12px; font-weight: 600; }
+  .avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 0.85rem; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--excellent);
+  }
+  .badge.outstanding { background: var(--outstanding); }
+  .badge.strong { background: var(--strong); }
+  .badge.satisfactory { background: var(--satisfactory); }
+  .badge.developing { background: var(--developing); }
+  .legend {
+    padding: 16px 24px;
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+    background: #fafbfd;
+  }
+  .legend strong { color: var(--text); }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Participation Tracker</h1>
+    <p>SDSC MAP 2026–2027 · Updated weekly</p>
+  </header>
+
+  <!-- To add a new week: copy this card block, update the week label, date, and ratings. -->
+  <section class="card">
+    <div class="card-header">
+      <h2>Week 1 — Program Introduction</h2>
+      <span class="date">Oct 7, 2026</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Participant</th>
+          <th>Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="participant"><span class="avatar" style="background:#4f6ef7">R</span>Ryan</span></td>
+          <td><span class="badge">Excellent</span></td>
+        </tr>
+        <tr>
+          <td><span class="participant"><span class="avatar" style="background:#f59e0b">T</span>Tiger</span></td>
+          <td><span class="badge">Excellent</span></td>
+        </tr>
+        <tr>
+          <td><span class="participant"><span class="avatar" style="background:#10b981">A</span>Andy</span></td>
+          <td><span class="badge">Excellent</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="legend">
+      <strong>Ratings:</strong> Outstanding · Excellent · Strong · Satisfactory · Developing<br>
+      Based on engagement: contributing to discussion, responding to prompts, sharing during conversation, and confirming next steps.
+    </div>
+  </section>
+</div>
+</body>
+</html>
