@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 2 &middot; The Software Crisis and the 1968 NATO Conference</title>
+<meta name="description" content="Where the phrase &#x27;software engineering&#x27; came from, and why it was coined as an aspiration rather than a description. Students read primary-source transcrip">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+ --ink:#12263A; --slate:#27446B; --amber:#C2680A; --moss:#2E6F52; --rust:#9B2C2C;
+ --paper:#FFFFFF; --panel:#EDF1F6; --panel2:#E2E9F1; --txt:#16202E; --mute:#5A6B80;
+ --line:#D7E0EA; --heroTxt:#FFFFFF; --heroMute:#A8BDD4; --code:#F4F7FA;
+ --serif:Cambria,Georgia,"Times New Roman",serif;
+ --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Calibri,Roboto,Helvetica,Arial,sans-serif;
+ --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Courier New",monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --paper:#0E1620; --panel:#172433; --panel2:#1D2C3D; --txt:#E6ECF3; --mute:#9BACC0;
+ --line:#26374B; --code:#141F2C; --amber:#E8913A; --moss:#5AAE82; --rust:#E06C6C;
+ --slate:#8FB0D6;
+}}
+:root[data-theme="dark"]{
+ --paper:#0E1620; --panel:#172433; --panel2:#1D2C3D; --txt:#E6ECF3; --mute:#9BACC0;
+ --line:#26374B; --code:#141F2C; --amber:#E8913A; --moss:#5AAE82; --rust:#E06C6C;
+ --slate:#8FB0D6;
+}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--txt);font-family:var(--sans);
+ font-size:17px;line-height:1.55;}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:8px;top:8px;background:var(--ink);color:#fff;padding:8px 14px;z-index:99;border-radius:6px}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px}
+a{color:var(--slate)}
+a:hover{color:var(--amber)}
+
+.topbar{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;
+ min-height:52px;flex-wrap:wrap;padding-top:6px;padding-bottom:6px}
+.topbar a{text-decoration:none;font-size:14px;font-weight:600}
+.crumb{color:var(--mute);font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.pager{display:flex;gap:8px}
+.pager a,.pager span{font-size:13px;padding:5px 10px;border:1px solid var(--line);border-radius:999px}
+.pager span{color:var(--mute);opacity:.5}
+
+.hero{background:var(--ink);color:var(--heroTxt);padding:44px 0 38px;margin-bottom:30px}
+.hero .eyebrow{color:var(--amber);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+.hero .wk{color:var(--heroMute);font-size:15px;margin-top:10px}
+.hero h1{font-family:var(--serif);font-size:clamp(28px,6vw,44px);line-height:1.1;margin:8px 0 0;font-weight:700}
+.hero .hook{background:rgba(255,255,255,.09);border-radius:8px;padding:16px 18px;margin-top:22px;
+ font-size:16px;line-height:1.5}
+.hero .meta{color:var(--heroMute);font-size:13px;margin-top:18px}
+
+section.blk{margin:0 0 30px}
+h2{font-family:var(--serif);font-size:clamp(21px,3.6vw,27px);line-height:1.2;margin:0 0 4px;font-weight:700}
+.sub{color:var(--mute);font-size:14px;font-style:italic;margin:0 0 16px}
+
+ol.num{list-style:none;counter-reset:n;padding:0;margin:0}
+ol.num>li{counter-increment:n;position:relative;background:var(--panel);border-radius:8px;
+ padding:16px 18px 16px 58px;margin-bottom:10px}
+ol.num>li::before{content:counter(n);position:absolute;left:16px;top:15px;width:28px;height:28px;
+ border-radius:50%;background:var(--ink);color:#fff;font-size:14px;font-weight:700;
+ display:grid;place-items:center;font-family:var(--serif)}
+ol.num.amber>li::before{background:var(--amber)}
+
+.chip{display:inline-block;background:var(--panel2);color:var(--slate);font-size:12px;font-weight:700;
+ padding:2px 10px;border-radius:999px;margin-bottom:6px;font-variant-numeric:tabular-nums}
+
+.pair{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:720px){.pair{grid-template-columns:1fr 1fr}}
+.card{border:1px solid var(--line);border-radius:10px;padding:18px}
+.card .tag{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+ display:flex;align-items:center;gap:8px}
+.card .tag::before{content:"";width:11px;height:11px;border-radius:50%;background:currentColor;flex:none}
+.card.good .tag{color:var(--moss)} .card.bad .tag{color:var(--rust)}
+.card h3{font-family:var(--serif);font-size:19px;margin:10px 0 8px;line-height:1.25}
+.card p{margin:0;font-size:15px}
+
+.ai{border-radius:8px;padding:16px 18px;margin-bottom:10px;background:var(--panel)}
+.ai .lab{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px}
+.ai.use .lab{color:var(--moss)} .ai.prompt .lab{color:var(--slate)} .ai.warn .lab{color:var(--amber)}
+.ai.prompt{background:var(--code)}
+.ai.prompt p{font-family:var(--mono);font-size:14px;margin:0;white-space:pre-wrap}
+.ai.warn{background:var(--panel2)}
+.ai p{margin:0}
+
+ section.blk h3{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+ color:var(--mute);margin:22px 0 4px;font-family:var(--sans)}
+ul.res{list-style:none;padding:0;margin:0}
+ul.res li{border-bottom:1px solid var(--line);padding:12px 0}
+ul.res li:last-child{border-bottom:0}
+ul.res .t{font-weight:600;display:block}
+ul.res a{font-size:13px;word-break:break-word}
+
+.deliv{background:var(--ink);color:#fff;border-radius:8px;padding:14px 18px;margin-top:12px;font-size:15px}
+.deliv b{color:#F0B26B;letter-spacing:.1em;font-size:12px;text-transform:uppercase;display:block;margin-bottom:4px}
+.cap{background:var(--amber);color:#fff;border-radius:8px;padding:12px 18px;margin-top:10px;
+ font-size:14px;font-weight:600}
+.time{color:var(--mute);font-size:13px;margin:0 0 14px}
+
+details.notes{border:1px dashed var(--line);border-radius:8px;padding:10px 14px;margin-top:12px;
+ background:var(--panel)}
+details.notes summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--mute);
+ letter-spacing:.06em;text-transform:uppercase}
+details.notes div{margin-top:10px;font-size:14.5px}
+details.notes p{margin:0 0 8px}
+
+.instructor{border-left:3px solid var(--amber);padding-left:14px}
+.instructor .flag{display:inline-block;background:var(--amber);color:#fff;font-size:11px;font-weight:700;
+ letter-spacing:.1em;text-transform:uppercase;padding:2px 9px;border-radius:999px;margin-bottom:8px}
+
+footer.foot{border-top:1px solid var(--line);margin-top:40px;padding:20px 0 50px;color:var(--mute);font-size:13px}
+
+/* index */
+.mod{margin:0 0 8px;font-family:var(--serif);font-size:20px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.mdesc{color:var(--mute);font-size:14px;margin:0 0 14px}
+ul.weeks{list-style:none;padding:0;margin:0 0 28px}
+ul.weeks li{border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-bottom:8px}
+ul.weeks .n{font-family:var(--serif);color:var(--amber);font-weight:700;font-size:13px}
+ul.weeks a{font-weight:600;text-decoration:none;font-size:17px;display:block;margin:2px 0 6px}
+ul.weeks p{margin:0;font-size:14.5px;color:var(--mute)}
+
+@media print{
+ .topbar,.pager,.skip{display:none}
+ body{font-size:11.5pt;background:#fff;color:#000}
+ .hero{background:#fff;color:#000;border-bottom:2px solid #000;padding:0 0 14px}
+ .hero h1{color:#000}.hero .wk,.hero .meta{color:#444}
+ .hero .hook{background:#f2f2f2;color:#000}
+ section.blk{page-break-inside:avoid}
+ details.notes{display:none}
+ a{color:#000;text-decoration:underline}
+ ul.res a::after{content:" (" attr(href) ")";font-size:9pt;color:#555}
+}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="topbar"><div class="wrap">
+<a href="index.html">&larr; All 32 weeks</a>
+<span class="crumb">Module A &middot; Week 02</span>
+<span class="pager"><a href="week-01.html">&lsaquo; Week 1</a> <a href="week-03.html">Week 3 &rsaquo;</a></span>
+</div></nav>
+<header class="hero"><div class="wrap">
+<div class="eyebrow">Module A &middot; Foundations &amp; History</div>
+<div class="wk">Week 2 of 32</div>
+<h1>The Software Crisis and the 1968 NATO Conference</h1>
+<p class="hook">Where the phrase 'software engineering' came from, and why it was coined as an aspiration rather than a description. Students read primary-source transcripts from Garmisch 1968 and discover that nearly every complaint in the room is still live today.</p>
+<p class="meta">20 minutes instruction &nbsp;&bull;&nbsp; 25 minutes workshop</p>
+</div></header>
+<main id="main" class="wrap">
+<section class="blk"><h2>By the end of today you can…</h2>
+<ol class="num amber"><li>Explain what the 'software crisis' was in concrete terms: cost overruns, schedule slips, and unreliability at a scale hardware engineering had never produced.</li><li>Identify at least three complaints from 1968 that are unchanged in 2026, and one that genuinely got solved.</li></ol>
+</section>
+<section class="blk"><h2>Two ways this goes</h2>
+<p class="sub">The same phase of the lifecycle, done well and done badly — both from real projects</p>
+<div class="pair">
+<div class="card good"><div class="tag">When the process holds</div><h3>Version control as a solved problem</h3><p>Configuration management was a top-three complaint in 1968 - teams genuinely lost track of which source produced which binary. Distributed version control solved it so thoroughly that modern developers cannot imagine the problem.</p></div>
+<div class="card bad"><div class="tag">When it doesn’t</div><h3>Estimation, 58 years running</h3><p>Every major estimation technique proposed since 1968 - function points, COCOMO, story points, T-shirt sizes - has failed to produce reliably accurate schedules. The field has largely moved to managing the consequences of bad estimates rather than fixing estimation.</p></div>
+</div></section>
+<section class="blk"><h2>AI in the loop</h2>
+<p class="sub">You will use AI this week. Here is where it earns its place — and where it lies to you.</p>
+<div class="ai use"><div class="lab">Use it for</div><p>Use AI to do historical cross-referencing you couldn't do by hand - but verify every claim against the primary PDF.</p></div>
+<div class="ai prompt"><div class="lab">Try this prompt</div><p>"Here is a passage from the 1968 NATO software engineering report. Identify the underlying engineering problem in modern terminology, then name the specific modern practice that addresses it. Flag any part of your answer you're not confident about."</p></div>
+<div class="ai warn"><div class="lab">Do not trust</div><p>Models confidently misattribute famous quotes to this conference. Dijkstra's 'go to' letter (1968) and the 'software crisis' phrase get scrambled together constantly. Check the PDF with Ctrl-F before you write anything down.</p></div>
+</section>
+<section class="blk"><h2>1968 vs. Now: The Complaint Ledger</h2>
+<p class="sub">The 25-minute block</p>
+</section>
+<section class="blk"><h2>Read and watch before next week</h2>
+<p class="sub">Every link below is live — click straight through</p>
+<h3>Reading</h3><ul class="res">
+<li><span class="t">Software Engineering: Report on the 1968 NATO Conference (primary source) - Naur &amp; Randell</span><a href="http://homepages.cs.ncl.ac.uk/brian.randell/NATO/nato1968.PDF" rel="noopener">homepages.cs.ncl.ac.uk/brian.randell/NATO/nato1968.PDF</a></li>
+<li><span class="t">Software Engineering Techniques: Rome 1969 report - Buxton &amp; Randell</span><a href="http://homepages.cs.ncl.ac.uk/brian.randell/NATO/nato1969.PDF" rel="noopener">homepages.cs.ncl.ac.uk/brian.randell/NATO/nato1969.PDF</a></li>
+<li><span class="t">NATO Software Engineering Conferences - overview and context</span><a href="https://en.wikipedia.org/wiki/NATO_Software_Engineering_Conferences" rel="noopener">en.wikipedia.org/wiki/NATO_Software_Engineering_Conferences</a></li>
+</ul><h3>Watch</h3><ul class="res">
+<li><span class="t">How to Crash an Airplane - Nickolas Means, LeadDev (26 min)</span><a href="https://www.youtube.com/watch?v=099cHWSbAL8" rel="noopener">www.youtube.com/watch?v=099cHWSbAL8</a></li>
+</ul></section>
+<section class="blk"><h2>Homework — The Complaint Ledger, Extended</h2>
+<p class="time">Estimated time: 70-90 minutes</p>
+<ol class="num"><li>Find TWO more complaints in the Garmisch PDF that we didn't cover in class. Quote them briefly (under 15 words each) with a page number.</li><li>For each, write 150 words: is it solved, managed, or still true? Name evidence.</li><li>Pick the one you think is genuinely permanent. Defend it in your journal in one paragraph.</li><li>AI task: ask an assistant to argue AGAINST your 'permanent' claim. Record its strongest point and whether it changed your mind.</li></ol>
+<div class="deliv"><b>Deliverable</b>Journal entry with two sourced complaints, page numbers, and the AI counterargument.</div>
+</section>
+</main>
+<footer class="foot"><div class="wrap">The Software Development Lifecycle &middot; Week 2 of 32 &middot;
+an eight-month course. Converted from the Week 02 slide deck.</div></footer>
+</body></html>
