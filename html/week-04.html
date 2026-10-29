@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 4 &middot; Feedback Loops and the Economics of Defects</title>
+<meta name="description" content="Introduces the single idea that explains almost every SDLC practice: the cost of fixing a defect scales with how long it survives undetected. Students meas">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+ --ink:#12263A; --slate:#27446B; --amber:#C2680A; --moss:#2E6F52; --rust:#9B2C2C;
+ --paper:#FFFFFF; --panel:#EDF1F6; --panel2:#E2E9F1; --txt:#16202E; --mute:#5A6B80;
+ --line:#D7E0EA; --heroTxt:#FFFFFF; --heroMute:#A8BDD4; --code:#F4F7FA;
+ --serif:Cambria,Georgia,"Times New Roman",serif;
+ --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Calibri,Roboto,Helvetica,Arial,sans-serif;
+ --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Courier New",monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --paper:#0E1620; --panel:#172433; --panel2:#1D2C3D; --txt:#E6ECF3; --mute:#9BACC0;
+ --line:#26374B; --code:#141F2C; --amber:#E8913A; --moss:#5AAE82; --rust:#E06C6C;
+ --slate:#8FB0D6;
+}}
+:root[data-theme="dark"]{
+ --paper:#0E1620; --panel:#172433; --panel2:#1D2C3D; --txt:#E6ECF3; --mute:#9BACC0;
+ --line:#26374B; --code:#141F2C; --amber:#E8913A; --moss:#5AAE82; --rust:#E06C6C;
+ --slate:#8FB0D6;
+}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--txt);font-family:var(--sans);
+ font-size:17px;line-height:1.55;}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:8px;top:8px;background:var(--ink);color:#fff;padding:8px 14px;z-index:99;border-radius:6px}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px}
+a{color:var(--slate)}
+a:hover{color:var(--amber)}
+
+.topbar{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;
+ min-height:52px;flex-wrap:wrap;padding-top:6px;padding-bottom:6px}
+.topbar a{text-decoration:none;font-size:14px;font-weight:600}
+.crumb{color:var(--mute);font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.pager{display:flex;gap:8px}
+.pager a,.pager span{font-size:13px;padding:5px 10px;border:1px solid var(--line);border-radius:999px}
+.pager span{color:var(--mute);opacity:.5}
+
+.hero{background:var(--ink);color:var(--heroTxt);padding:44px 0 38px;margin-bottom:30px}
+.hero .eyebrow{color:var(--amber);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+.hero .wk{color:var(--heroMute);font-size:15px;margin-top:10px}
+.hero h1{font-family:var(--serif);font-size:clamp(28px,6vw,44px);line-height:1.1;margin:8px 0 0;font-weight:700}
+.hero .hook{background:rgba(255,255,255,.09);border-radius:8px;padding:16px 18px;margin-top:22px;
+ font-size:16px;line-height:1.5}
+.hero .meta{color:var(--heroMute);font-size:13px;margin-top:18px}
+
+section.blk{margin:0 0 30px}
+h2{font-family:var(--serif);font-size:clamp(21px,3.6vw,27px);line-height:1.2;margin:0 0 4px;font-weight:700}
+.sub{color:var(--mute);font-size:14px;font-style:italic;margin:0 0 16px}
+
+ol.num{list-style:none;counter-reset:n;padding:0;margin:0}
+ol.num>li{counter-increment:n;position:relative;background:var(--panel);border-radius:8px;
+ padding:16px 18px 16px 58px;margin-bottom:10px}
+ol.num>li::before{content:counter(n);position:absolute;left:16px;top:15px;width:28px;height:28px;
+ border-radius:50%;background:var(--ink);color:#fff;font-size:14px;font-weight:700;
+ display:grid;place-items:center;font-family:var(--serif)}
+ol.num.amber>li::before{background:var(--amber)}
+
+.chip{display:inline-block;background:var(--panel2);color:var(--slate);font-size:12px;font-weight:700;
+ padding:2px 10px;border-radius:999px;margin-bottom:6px;font-variant-numeric:tabular-nums}
+
+.pair{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:720px){.pair{grid-template-columns:1fr 1fr}}
+.card{border:1px solid var(--line);border-radius:10px;padding:18px}
+.card .tag{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+ display:flex;align-items:center;gap:8px}
+.card .tag::before{content:"";width:11px;height:11px;border-radius:50%;background:currentColor;flex:none}
+.card.good .tag{color:var(--moss)} .card.bad .tag{color:var(--rust)}
+.card h3{font-family:var(--serif);font-size:19px;margin:10px 0 8px;line-height:1.25}
+.card p{margin:0;font-size:15px}
+
+.ai{border-radius:8px;padding:16px 18px;margin-bottom:10px;background:var(--panel)}
+.ai .lab{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px}
+.ai.use .lab{color:var(--moss)} .ai.prompt .lab{color:var(--slate)} .ai.warn .lab{color:var(--amber)}
+.ai.prompt{background:var(--code)}
+.ai.prompt p{font-family:var(--mono);font-size:14px;margin:0;white-space:pre-wrap}
+.ai.warn{background:var(--panel2)}
+.ai p{margin:0}
+
+ section.blk h3{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+ color:var(--mute);margin:22px 0 4px;font-family:var(--sans)}
+ul.res{list-style:none;padding:0;margin:0}
+ul.res li{border-bottom:1px solid var(--line);padding:12px 0}
+ul.res li:last-child{border-bottom:0}
+ul.res .t{font-weight:600;display:block}
+ul.res a{font-size:13px;word-break:break-word}
+
+.deliv{background:var(--ink);color:#fff;border-radius:8px;padding:14px 18px;margin-top:12px;font-size:15px}
+.deliv b{color:#F0B26B;letter-spacing:.1em;font-size:12px;text-transform:uppercase;display:block;margin-bottom:4px}
+.cap{background:var(--amber);color:#fff;border-radius:8px;padding:12px 18px;margin-top:10px;
+ font-size:14px;font-weight:600}
+.time{color:var(--mute);font-size:13px;margin:0 0 14px}
+
+details.notes{border:1px dashed var(--line);border-radius:8px;padding:10px 14px;margin-top:12px;
+ background:var(--panel)}
+details.notes summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--mute);
+ letter-spacing:.06em;text-transform:uppercase}
+details.notes div{margin-top:10px;font-size:14.5px}
+details.notes p{margin:0 0 8px}
+
+.instructor{border-left:3px solid var(--amber);padding-left:14px}
+.instructor .flag{display:inline-block;background:var(--amber);color:#fff;font-size:11px;font-weight:700;
+ letter-spacing:.1em;text-transform:uppercase;padding:2px 9px;border-radius:999px;margin-bottom:8px}
+
+footer.foot{border-top:1px solid var(--line);margin-top:40px;padding:20px 0 50px;color:var(--mute);font-size:13px}
+
+/* index */
+.mod{margin:0 0 8px;font-family:var(--serif);font-size:20px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.mdesc{color:var(--mute);font-size:14px;margin:0 0 14px}
+ul.weeks{list-style:none;padding:0;margin:0 0 28px}
+ul.weeks li{border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-bottom:8px}
+ul.weeks .n{font-family:var(--serif);color:var(--amber);font-weight:700;font-size:13px}
+ul.weeks a{font-weight:600;text-decoration:none;font-size:17px;display:block;margin:2px 0 6px}
+ul.weeks p{margin:0;font-size:14.5px;color:var(--mute)}
+
+@media print{
+ .topbar,.pager,.skip{display:none}
+ body{font-size:11.5pt;background:#fff;color:#000}
+ .hero{background:#fff;color:#000;border-bottom:2px solid #000;padding:0 0 14px}
+ .hero h1{color:#000}.hero .wk,.hero .meta{color:#444}
+ .hero .hook{background:#f2f2f2;color:#000}
+ section.blk{page-break-inside:avoid}
+ details.notes{display:none}
+ a{color:#000;text-decoration:underline}
+ ul.res a::after{content:" (" attr(href) ")";font-size:9pt;color:#555}
+}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="topbar"><div class="wrap">
+<a href="index.html">&larr; All 32 weeks</a>
+<span class="crumb">Module A &middot; Week 04</span>
+<span class="pager"><a href="week-03.html">&lsaquo; Week 3</a> <a href="week-05.html">Week 5 &rsaquo;</a></span>
+</div></nav>
+<header class="hero"><div class="wrap">
+<div class="eyebrow">Module A &middot; Foundations &amp; History</div>
+<div class="wk">Week 4 of 32</div>
+<h1>Feedback Loops and the Economics of Defects</h1>
+<p class="hook">Introduces the single idea that explains almost every SDLC practice: the cost of fixing a defect scales with how long it survives undetected. Students measure their own feedback loops with a stopwatch and discover where their time actually goes.</p>
+<p class="meta">20 minutes instruction &nbsp;&bull;&nbsp; 25 minutes workshop</p>
+</div></header>
+<main id="main" class="wrap">
+<section class="blk"><h2>By the end of today you can…</h2>
+<ol class="num amber"><li>Explain the defect-cost curve and, importantly, its honest limitations as evidence.</li><li>Measure the length of their own feedback loops (edit-to-signal) and identify the longest one.</li><li>Reframe every practice in the rest of the course as either 'shorten a loop' or 'catch a defect earlier'.</li></ol>
+</section>
+<section class="blk"><h2>Two ways this goes</h2>
+<p class="sub">The same phase of the lifecycle, done well and done badly — both from real projects</p>
+<div class="pair">
+<div class="card good"><div class="tag">When the process holds</div><h3>Google's presubmit checks</h3><p>Google runs a large battery of automated checks before code can be merged, catching entire classes of defects at review time rather than in production. The investment is enormous; so is the codebase.</p></div>
+<div class="card bad"><div class="tag">When it doesn’t</div><h3>Knight Capital, 2012</h3><p>A deployment reached only 7 of 8 servers, reactivating dormant code on the eighth. 97 automated emails flagged the error before markets opened; none were designed as alerts, so nobody read them. In 45 minutes the firm lost over $460 million. The signal existed. The loop was never closed.</p></div>
+</div></section>
+<section class="blk"><h2>AI in the loop</h2>
+<p class="sub">You will use AI this week. Here is where it earns its place — and where it lies to you.</p>
+<div class="ai use"><div class="lab">Use it for</div><p>Treat AI as a sub-second reviewer that runs before your slower, more reliable checks - never instead of them.</p></div>
+<div class="ai prompt"><div class="lab">Try this prompt</div><p>"Here is a diff. Without running it, list the three most likely ways this breaks in production, ordered by probability. For each, name the specific test I should write."</p></div>
+<div class="ai warn"><div class="lab">Do not trust</div><p>AI review feels like a fast loop but has a different error profile than a test: it catches plausible-looking mistakes and misses subtle-but-real ones. Never let a green AI review substitute for a red test.</p></div>
+</section>
+<section class="blk"><h2>Stopwatch Your Loops</h2>
+<p class="sub">The 25-minute block</p>
+<ol class="num"><li><span class="chip">0:00-0:10</span><br>Students open a real project on their laptop and time, with an actual stopwatch: (a) edit to syntax error visible, (b) edit to test result, (c) edit to running app, (d) commit to CI verdict. Record real numbers.</li><li><span class="chip">0:10-0:16</span><br>Plot the class distribution on the board. The spread is usually enormous - some students get CI feedback in 40 seconds, others have no CI at all.</li><li><span class="chip">0:16-0:22</span><br>Pairs: pick your single longest loop and design the cheapest intervention that would halve it. Not the best intervention - the cheapest.</li><li><span class="chip">0:22-0:25</span><br>Commit publicly: each student names the one loop they will shorten before Week 5.</li></ol>
+</section>
+<section class="blk"><h2>Read and watch before next week</h2>
+<p class="sub">Every link below is live — click straight through</p>
+<h3>Reading</h3><ul class="res">
+<li><span class="t">SEC Order: In the Matter of Knight Capital Americas LLC (read paragraphs 12-30)</span><a href="https://www.sec.gov/files/litigation/admin/2013/34-70694.pdf" rel="noopener">www.sec.gov/files/litigation/admin/2013/34-70694.pdf</a></li>
+<li><span class="t">SEC press release on the Knight Capital order</span><a href="https://www.sec.gov/news/press-release/2013-222" rel="noopener">www.sec.gov/news/press-release/2013-222</a></li>
+<li><span class="t">Is Quality Worth the Cost? - Martin Fowler</span><a href="https://martinfowler.com/articles/is-quality-worth-cost.html" rel="noopener">martinfowler.com/articles/is-quality-worth-cost.html</a></li>
+</ul><h3>Watch</h3><ul class="res">
+<li><span class="t">Who Destroyed Three Mile Island? - Nickolas Means, LeadDev London (36 min)</span><a href="https://www.youtube.com/watch?v=hMk6rF4Tzsg" rel="noopener">www.youtube.com/watch?v=hMk6rF4Tzsg</a></li>
+</ul></section>
+<section class="blk"><h2>Homework — Loop Measurement Report</h2>
+<p class="time">Estimated time: 90 minutes</p>
+<ol class="num"><li>Produce a table of your four measured loop times, with the tooling that produces each signal.</li><li>Implement the cheap intervention you committed to. Measure again. Report the before/after honestly, including if it didn't work.</li><li>Read the Knight Capital SEC order paragraphs 12-30. In 250 words, identify the three specific loops that were open, and which single one you'd close first if you had one engineer-week.</li><li>AI task: have an assistant review a diff you actually wrote this week. Log what it caught, what it missed, and what it hallucinated.</li></ol>
+<div class="deliv"><b>Deliverable</b>Loop table with before/after, Knight Capital analysis, AI review log.</div>
+</section>
+</main>
+<footer class="foot"><div class="wrap">The Software Development Lifecycle &middot; Week 4 of 32 &middot;
+an eight-month course. Converted from the Week 04 slide deck.</div></footer>
+</body></html>
